@@ -161,4 +161,5 @@ cython_debug/
 
 # Generated models
 llama-2-7b-chat-guanaco/
+llama-2-7b-chat-stack-overflow/
 /results/
