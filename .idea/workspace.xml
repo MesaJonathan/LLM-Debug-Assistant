@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="104a5890-8f45-434e-a580-fc68488de9bc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/main.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +144,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-09665e90c3a7-b11f5e8da5ad-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.15026.15" />
+        <option value="bundled-python-sdk-8169a31fad14-083d02a8fb4b-com.jetbrains.pycharm.ds.sharedIndexes.bundled-DS-241.14494.247" />
       </set>
     </attachedChunks>
   </component>
@@ -163,6 +164,7 @@
       <workItem from="1712781855002" duration="34000" />
       <workItem from="1713290837252" duration="5000" />
       <workItem from="1713302366128" duration="5870000" />
+      <workItem from="1713310533572" duration="312000" />
     </task>
     <servers />
   </component>
