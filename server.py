@@ -28,12 +28,14 @@ try:
         question = data.decode('utf-8')
 
         # Setup generation and streaming
-        question = f"<s>[INST] {question} [/INST]"
         streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, timeout=3)
 
         generator = pipeline("text-generation", model="bgsmagnuson/tiny-llama-stack-overflow")
 
-        generation_kwargs = dict(text_inputs=question, streamer=streamer, max_length=20)
+        messages = [{ "role": "user", "content": f"{question}"}]
+        question = generator.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
+
+        generation_kwargs = dict(text_inputs=question, streamer=streamer, max_length=200)
         thread = Thread(target=generator, kwargs=generation_kwargs)
         thread.start()
 
