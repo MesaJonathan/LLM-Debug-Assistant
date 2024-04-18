@@ -1,28 +1,18 @@
 import socket
 import threading
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
+from transformers import pipeline
 
-def generate_and_stream(model, input_ids, tokenizer, conn):
-    chat_history_ids = input_ids
-    model.eval()  # Make sure the model is in evaluation mode
+# Configure the pipeline with the model from Hugging Face
+generator = pipeline("text-generation", model="bgsmagnuson/tiny-llama-stack-overflow")
 
-    with torch.no_grad():  # Disable gradient calculation for generation
-        for _ in range(200):  # Assuming a max length of 200 tokens
-            outputs = model(chat_history_ids)
-            next_token_logits = outputs.logits[:, -1, :]
-            next_token = torch.argmax(next_token_logits, dim=-1).unsqueeze(-1)
-            chat_history_ids = torch.cat([chat_history_ids, next_token], dim=1)
+def generate_and_stream(request, conn):
+    generated_texts = generator(f"<s>[INST] {request} [/INST]", max_length=500)
+    generated_text = generated_texts[0]["generated_text"]
+    
+    conn.sendall(generated_text.encode("utf-8"))
+    conn.sendall("END".encode("utf-8"))  # Signal end of the message
 
-            # Decode and send the token
-            next_token_str = tokenizer.decode(next_token[0], skip_special_tokens=True)
-            if next_token_str == tokenizer.eos_token:
-                conn.sendall("END".encode("utf-8"))  # Send a special end token to signify end of message
-                break
-
-            conn.sendall(next_token_str.encode("utf-8"))
-
-def client_thread(conn, addr, model, tokenizer):
+def client_thread(conn, addr):
     print(f"Accepted connection from {addr[0]}:{addr[1]}")
     try:
         while True:
@@ -36,8 +26,7 @@ def client_thread(conn, addr, model, tokenizer):
                 conn.sendall("closed".encode("utf-8"))
                 break
 
-            input_ids = tokenizer.encode(request, return_tensors='pt')
-            generate_and_stream(model, input_ids, tokenizer, conn)
+            generate_and_stream(request, conn)
 
     except Exception as e:
         print(f"Error handling {addr}: {e}")
@@ -48,9 +37,6 @@ def client_thread(conn, addr, model, tokenizer):
 def run_server():
     server_ip = '127.0.0.1'
     server_port = 8000
-    model_path = "llama-2-7b-chat-stack-overflow"
-    tokenizer = AutoTokenizer.from_pretrained(model_path)
-    model = AutoModelForCausalLM.from_pretrained(model_path)
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind((server_ip, server_port))
@@ -60,11 +46,10 @@ def run_server():
     try:
         while True:
             conn, addr = server_socket.accept()
-            threading.Thread(target=client_thread, args=(conn, addr, model, tokenizer)).start()
+            threading.Thread(target=client_thread, args=(conn, addr)).start()
     finally:
         server_socket.close()
         print("Server shutdown")
-
 
 # Run the server
 run_server()
