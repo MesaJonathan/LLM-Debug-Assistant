@@ -6,4 +6,5 @@ bitsandbytes
 transformers 
 trl
 tensorboard
+evaluate
 flask
