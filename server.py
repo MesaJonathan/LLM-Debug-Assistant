@@ -48,7 +48,7 @@ def client_thread(conn, addr, model, tokenizer):
 def run_server():
     server_ip = '127.0.0.1'
     server_port = 8000
-    model_path = "llama-2-7b-chat-stack-overflow"
+    model_path = "CustomLLM"
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     model = AutoModelForCausalLM.from_pretrained(model_path)
 
