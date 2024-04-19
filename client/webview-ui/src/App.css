@@ -1,0 +1,109 @@
+* {
+  box-sizing: border-box;
+}
+
+/* body {
+  background-color: #21252b;
+  color: #c2cccc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+} */
+
+main {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+}
+
+.controls {
+  /* align */
+  width: 100%;
+  /* content */
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+
+}
+
+.text-entry {
+  /* align */
+  margin-top: 1rem;
+  width: 100%;
+  /* style */
+  /* background: blue; */
+  /* content */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.text-entry vscode-textarea {
+  /* align */
+  width: 100%;
+  height: 1.5rem;
+}
+
+.text-entry vscode-button {
+  height: 1.5rem;
+}
+
+.loading {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.loading span {
+  animation: spin 2s linear infinite;
+}
+
+.loading p {
+  margin: 0;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.messages {
+  /* align */
+  width: 100%;
+  margin-top: auto;
+  /* content */
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  overflow-y: auto;
+}
+
+.message {
+  /* align */
+  width: 100%;
+  /* style */
+  /* background: #262930; */
+  border-top: 2px solid #3b3f46;
+  /* content */
+  padding: 0.5rem;
+}
+
+.message:nth-last-child(odd) {
+  background: #262930;
+}
+
+.message-author {
+  font-weight: bold;
+}
+
+.message-text {
+  margin-bottom: 0.5rem;
+}
