@@ -2,10 +2,11 @@ import socket
 from transformers import AutoModelForCausalLM, AutoTokenizer, TextIteratorStreamer, pipeline
 from threading import Thread
 
+model_name = "bgsmagnuson/tiny-llama-code-feedback"
 
 # Initialize the tokenizer and model
-tokenizer = AutoTokenizer.from_pretrained("bgsmagnuson/tiny-llama-stack-overflow")
-model = AutoModelForCausalLM.from_pretrained("bgsmagnuson/tiny-llama-stack-overflow")
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
 
 # Set up socket
 host = 'localhost'
@@ -30,7 +31,7 @@ try:
         # Setup generation and streaming
         streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, timeout=3)
 
-        generator = pipeline("text-generation", model="bgsmagnuson/tiny-llama-code-feedback")
+        generator = pipeline("text-generation", model=model_name)
 
         messages = [{ "role": "user", "content": f"{question}"}]
         question = generator.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
