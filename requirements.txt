@@ -1,0 +1,9 @@
+jupyter
+ipykernel
+accelerate 
+peft 
+bitsandbytes 
+transformers 
+trl
+tensorboard
+flask
