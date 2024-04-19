@@ -30,12 +30,12 @@ try:
         # Setup generation and streaming
         streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, timeout=3)
 
-        generator = pipeline("text-generation", model="bgsmagnuson/tiny-llama-stack-overflow")
+        generator = pipeline("text-generation", model="bgsmagnuson/tiny-llama-code-feedback")
 
         messages = [{ "role": "user", "content": f"{question}"}]
         question = generator.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
 
-        generation_kwargs = dict(text_inputs=question, streamer=streamer, max_length=200)
+        generation_kwargs = dict(text_inputs=question, streamer=streamer, max_length=500)
         thread = Thread(target=generator, kwargs=generation_kwargs)
         thread.start()
 
@@ -46,6 +46,9 @@ try:
             conn.sendall(generated_text.encode('utf-8'))
 
         conn.sendall("<END>".encode('utf-8'))
+
+        del generator
+        del streamer
 
 finally:
     conn.close()
